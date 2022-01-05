@@ -3,6 +3,7 @@ import pandas as pd
 
 from io import StringIO
 from utils.environments import create_environments
+from utils import duckduckgo_api
 
 env = create_environments()
 
@@ -31,6 +32,11 @@ def process_data(file_data) -> list:
         new_dict = dict()
         for i in zip(data_file.columns, row):
             new_dict[re.sub(r'\s+', ' ', i[0].strip().lower())] = i[1]
+        # Enrich data
+        j_data, duck_url = duckduckgo_api(new_dict.get('institution'))
+        new_dict['description'] = j_data.get('AbstractText', '')
+        new_dict['duckduckgo_search'] = duck_url
+
         data_list.append(clean_university(new_dict))
     return data_list
 
