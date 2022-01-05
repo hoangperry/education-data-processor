@@ -25,8 +25,20 @@ def push_new_document(document, collection_name, database_name=None, client_conn
         connection_already_existed = False
     else:
         connection_already_existed = True
-
-    client_connection[database_name][collection_name].insert(document)
+    if collection_name == env.database_university_collection:
+        client_connection[database_name][collection_name].find_one_and_update(
+            {'institution': document.get('institution', None)},
+            {"$set": document},
+            upsert=True,
+        )
+    elif collection_name == env.database_year_collection:
+        client_connection[database_name][collection_name].find_one_and_update(
+            {'year': document.get('year', None)},
+            {"$set": document},
+            upsert=True,
+        )
+    else:
+        pass
 
     if not connection_already_existed:
         client_connection.close()
