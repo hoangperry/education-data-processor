@@ -46,5 +46,6 @@ def get_logger(log_name, max_log_file_in_mb=15, logger_name='default'):
     return log
 
 
+# create default logger
 info_log = get_logger(root_dir + 'info.log', 25, logger_name='info')
 error_log = get_logger(root_dir + 'error.log', 25, logger_name='error')

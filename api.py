@@ -20,7 +20,15 @@ def health_check():
 # noinspection PyBroadException
 @app.get("/university/")
 def fetch_api(institution):
-    res = get_uni_by_institution(institution)
+    try:
+        db_connection = create_connection()
+    except Exception as _:
+        error_log.error(traceback.format_exc())
+        return JSONResponse({
+            "success": False,
+            "message": "Cannot connect to Database"
+        }, status_code=500)
+    res = get_uni_by_institution(institution, client_connection=db_connection)
     if not isinstance(res, dict):
         return JSONResponse({'message': 'not found'}, status_code=404)
 
@@ -42,6 +50,13 @@ def create_file(data_file: UploadFile = File(...)):
         }, status_code=400)
     try:
         db_connection = create_connection()
+    except Exception as _:
+        error_log.error(traceback.format_exc())
+        return JSONResponse({
+            "success": False,
+            "message": "Cannot connect to Database"
+        }, status_code=500)
+    try:
         year = data_processor.parse_year_from_file_name(data_file.filename)
         for row in clean_data:
             row['year'] = year
