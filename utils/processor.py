@@ -1,11 +1,22 @@
 import re
+import requests
+import urllib.parse
 import pandas as pd
 
 from io import StringIO
 from utils.environments import create_environments
-from utils import duckduckgo_api
 
 env = create_environments()
+
+
+def duckduckgo_api(university_name):
+    # noinspection PyBroadException
+    try:
+        duckduckgo_url = f"https://api.duckduckgo.com/?q={urllib.parse.quote(university_name)}&format=json&pretty=1"
+        res = requests.get(duckduckgo_url)
+    except Exception as _:
+        return dict(), ''
+    return res.json(), duckduckgo_url
 
 
 def parse_year_from_file_name(filename) -> int:

@@ -1,9 +1,16 @@
+import os
 import sys
 import logging
 
 from datetime import date
 from logging import handlers
-from utils import ensure_dir
+
+
+def ensure_dir(file_path):
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
 
 root_dir = 'logs/'
 ensure_dir(root_dir)
