@@ -3,7 +3,7 @@ import traceback
 import utils.processor as data_processor
 from utils.logger import error_log, info_log
 from utils.environments import create_environments
-from utils.database import push_new_document, create_connection
+from utils.database import push_new_document, create_connection, get_uni_by_institution
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
@@ -18,8 +18,19 @@ def health_check():
 
 
 # noinspection PyBroadException
+@app.get("/university/")
+def fetch_api(institution):
+    res = get_uni_by_institution(institution)
+    if not isinstance(res, dict):
+        return JSONResponse({'message': 'not found'}, status_code=404)
+
+    del res['_id']
+    return JSONResponse(res, status_code=200)
+
+
+# noinspection PyBroadException
 @app.post("/crawler-receiver/")
-async def create_file(data_file: UploadFile = File(...)):
+def create_file(data_file: UploadFile = File(...)):
     try:
         file_uploaded = data_file.file.read()
         clean_data = data_processor.process_data(file_uploaded)
