@@ -41,7 +41,7 @@ def fetch_api(institution):
 def create_file(data_file: UploadFile = File(...)):
     try:
         file_uploaded = data_file.file.read()
-        clean_data = data_processor.process_data(file_uploaded)
+        clean_data = data_processor.process_data(data_processor.byte_to_df(file_uploaded))
     except Exception as _:
         error_log.error(traceback.format_exc())
         return JSONResponse({

@@ -10,6 +10,11 @@ env = create_environments()
 
 
 def duckduckgo_api(university_name):
+    """
+    Enrich data by duckduckgo API
+    :param university_name:
+    :return: university_in4, api_url
+    """
     # noinspection PyBroadException
     try:
         duckduckgo_url = f"https://api.duckduckgo.com/?q={urllib.parse.quote(university_name)}&format=json&pretty=1"
@@ -28,20 +33,28 @@ def parse_year_from_file_name(filename) -> int:
     return int(re.search(r'\d+', filename).group())
 
 
+def byte_to_df(file_byte) -> pd.DataFrame:
+    """
+    convert byte to dataframe
+    :param file_byte: bytes
+    :return: dataframe
+    """
+    return pd.read_csv(StringIO(str(file_byte, 'utf-8')), sep='\t')
+
+
 # noinspection PyBroadException
-def process_data(file_data) -> list:
+def process_data(data_df) -> list:
     """
     Process file data as byte
         - Clean columns name: lower case, strip
         - Clean value: strip
-    :param file_data: byte
+    :param data_df: dataframe
     :return: list of university
     """
-    data_file = pd.read_csv(StringIO(str(file_data, 'utf-8')), sep='\t')
     data_list = list()
-    for _, row in data_file[1:].iterrows():
+    for _, row in data_df[:].iterrows():
         new_dict = dict()
-        for i in zip(data_file.columns, row):
+        for i in zip(data_df.columns, row):
             new_dict[re.sub(r'\s+', ' ', i[0].strip().lower())] = i[1]
         # Enrich data
         j_data, duck_url = duckduckgo_api(new_dict.get('institution'))
