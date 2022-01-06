@@ -5,6 +5,7 @@ import pandas as pd
 
 from io import StringIO
 from utils.environments import create_environments
+from logger import info_log
 
 env = create_environments()
 
@@ -16,6 +17,7 @@ def duckduckgo_api(university_name):
     :return: university_in4, api_url
     """
     # noinspection PyBroadException
+    info_log.info(f'Calling duckduckgo API - {university_name}')
     try:
         duckduckgo_url = f"https://api.duckduckgo.com/?q={urllib.parse.quote(university_name)}&format=json&pretty=1"
         res = requests.get(duckduckgo_url)
