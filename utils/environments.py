@@ -20,6 +20,6 @@ def create_environments():
     configs['database_port'] = str(os.environ.get('DATABASE_PORT', '27018'))
     configs['database_name'] = str(os.environ.get('DATABASE_NAME', 'edu_db'))
 
-    configs['database_year_collection'] = str(os.environ.get('DATABASE_NAME', 'year_c'))
-    configs['database_university_collection'] = str(os.environ.get('DATABASE_NAME', 'uni_c'))
+    configs['database_year_collection'] = str(os.environ.get('DATABASE_YEAR_COL', 'year_c'))
+    configs['database_university_collection'] = str(os.environ.get('DATABASE_UNI_COL', 'uni_c'))
     return ConfigDict(configs)
