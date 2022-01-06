@@ -7,7 +7,8 @@
 
 > Example query: ai.hoang.tech:8000/university/?institution=stanford university
 
-**Note:** crawler-receiver may need a long time for process 1000 rows data file because of calling duckduckgo API  
+**Note:** crawler-receiver may need a long time for process 1000 rows 
+data file because of calling duckduckgo API (My server have limited network bandwidth for this project)
 
 # Deployment
 
