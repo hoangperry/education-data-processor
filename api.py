@@ -37,10 +37,10 @@ def fetch_api(institution):
 
 # noinspection PyBroadException
 @app.post("/crawler-receiver/")
-def create_file(data_file: UploadFile = File(...)):
+def create_file(data_file: UploadFile = File(...), enrich_data=True):
     try:
         file_uploaded = data_file.file.read()
-        clean_data = data_processor.process_data(data_processor.byte_to_df(file_uploaded))
+        clean_data = data_processor.process_data(data_processor.byte_to_df(file_uploaded), enrich_data)
     except Exception as _:
         error_log.error(traceback.format_exc())
         return JSONResponse({

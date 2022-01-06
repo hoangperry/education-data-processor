@@ -47,12 +47,13 @@ def byte_to_df(file_byte) -> pd.DataFrame:
 
 
 # noinspection PyBroadException
-def process_data(data_df) -> list:
+def process_data(data_df, enrich_data=True) -> list:
     """
     Process file data as byte
         - Clean columns name: lower case, strip
         - Clean value: strip
     :param data_df: dataframe
+    :param enrich_data: bool
     :return: list of university
     """
     data_list = list()
@@ -61,9 +62,10 @@ def process_data(data_df) -> list:
         for i in zip(data_df.columns, row):
             new_dict[re.sub(r'\s+', ' ', i[0].strip().lower())] = i[1]
         # Enrich data
-        j_data, duck_url = duckduckgo_api(new_dict.get('institution'))
-        new_dict['description'] = j_data.get('AbstractText', '')
-        new_dict['duckduckgo_search'] = duck_url
+        if enrich_data:
+            j_data, duck_url = duckduckgo_api(new_dict.get('institution'))
+            new_dict['description'] = j_data.get('AbstractText', '')
+            new_dict['duckduckgo_search'] = duck_url
 
         data_list.append(clean_university(new_dict))
     return data_list
