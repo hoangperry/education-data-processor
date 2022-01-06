@@ -1,0 +1,19 @@
+version: '2.2'
+
+services:
+  app:
+    build: .
+    command: bash -c 'uvicorn api:app --host 0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_USERNAME=${EDU_DATABASE_USERNAME:-hoangntruong}
+      - DATABASE_PASSWORD=${EDU_DATABASE_PASSWORD:-NYTPnHoang}
+      - DATABASE_HOST=${EDU_DATABASE_HOST:-ai.hoang.tech}
+      - DATABASE_PORT=${EDU_DATABASE_PORT:-27018}
+      - DATABASE_NAME=${EDU_DATABASE_NAME:-edu_db}
+
+volumes:
+  edu_app_volumes:

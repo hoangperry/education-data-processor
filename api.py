@@ -29,7 +29,7 @@ def fetch_api(institution):
             "message": "Cannot connect to Database"
         }, status_code=500)
     res = get_uni_by_institution(institution, client_connection=db_connection)
-    if not isinstance(res, dict):
+    if not res:
         return JSONResponse({'message': 'not found'}, status_code=404)
 
     return JSONResponse(res, status_code=200)
