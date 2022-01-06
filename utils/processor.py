@@ -17,7 +17,6 @@ def duckduckgo_api(university_name):
     :return: university_in4, api_url
     """
     # noinspection PyBroadException
-    info_log.info(f'Calling duckduckgo API - {university_name}')
     quote_uni = urllib.parse.quote(university_name.lower())
     try:
         duckduckgo_url = f"https://api.duckduckgo.com/?q={quote_uni}&format=json&pretty=1"
@@ -25,6 +24,7 @@ def duckduckgo_api(university_name):
         res = res.json()
     except Exception as _:
         return dict(), ''
+    info_log.info(f'Called duckduckgo API - {university_name}')
     return res, duckduckgo_url
 
 
