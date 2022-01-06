@@ -20,7 +20,7 @@ def duckduckgo_api(university_name):
     quote_uni = urllib.parse.quote(university_name.lower())
     try:
         duckduckgo_url = f"https://api.duckduckgo.com/?q={quote_uni}&format=json&pretty=1"
-        res = requests.get(duckduckgo_url)
+        res = requests.get(duckduckgo_url, timeout=5)
         res = res.json()
     except Exception as _:
         return dict(), ''
