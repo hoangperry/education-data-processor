@@ -54,7 +54,10 @@ def get_uni_by_institution(institution, database_name=None, client_connection=No
         client_connection.close()
     if uni is None:
         return dict()
-    del uni['_id']
+    try:
+        del uni['_id']
+    except:
+        pass
     return uni
 
 
