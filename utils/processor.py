@@ -19,9 +19,10 @@ def duckduckgo_api(university_name):
     try:
         duckduckgo_url = f"https://api.duckduckgo.com/?q={urllib.parse.quote(university_name)}&format=json&pretty=1"
         res = requests.get(duckduckgo_url)
+        res = res.json()
     except Exception as _:
         return dict(), ''
-    return res.json(), duckduckgo_url
+    return res, duckduckgo_url
 
 
 def parse_year_from_file_name(filename) -> int:
