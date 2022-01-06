@@ -52,7 +52,10 @@ def get_uni_by_institution(institution, database_name=None, client_connection=No
     )
     if not connection_already_existed:
         client_connection.close()
-    return uni if uni is not None else dict()
+    if uni is None:
+        return dict()
+    del uni['_id']
+    return uni
 
 
 def push_new_document(document, collection_name, database_name=None, client_connection=None):

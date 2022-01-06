@@ -32,7 +32,6 @@ def fetch_api(institution):
     if not isinstance(res, dict):
         return JSONResponse({'message': 'not found'}, status_code=404)
 
-    del res['_id']
     return JSONResponse(res, status_code=200)
 
 
