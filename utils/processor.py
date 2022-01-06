@@ -5,7 +5,7 @@ import pandas as pd
 
 from io import StringIO
 from utils.environments import create_environments
-from logger import info_log
+from utils.logger import info_log
 
 env = create_environments()
 
